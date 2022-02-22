@@ -97,6 +97,23 @@ public class DatabaseServiceImpl implements DatabaseService {
     }
 
     private List<Column> queryTableColumns(DataSource dataSource, String tableName, DatabaseEnum databaseEnum) {
+        String columnSql = getColumnsSql(tableName, databaseEnum);
+        List<Map<String, Object>> columnsMapList = ExecSql.queryForMapList(dataSource, columnSql);
+        List<Column> columnList = new ArrayList<>();
+        for (Map<String, Object> map : columnsMapList) {
+            String name = map.get("COLUMN_NAME").toString();
+            String type = map.get("COLUMN_TYPE").toString();
+            Column column = new Column(name, type);
+            columnList.add(column);
+        }
+        return columnList;
+    }
+
+    private String getColumnsSql(String tableName, DatabaseEnum databaseEnum) {
+        String type = databaseEnum.getType();
+        if (type.equalsIgnoreCase("mysql")) {
+            return String.format(databaseEnum.getColumnsSql(), tableName);
+        }
         return null;
     }
 

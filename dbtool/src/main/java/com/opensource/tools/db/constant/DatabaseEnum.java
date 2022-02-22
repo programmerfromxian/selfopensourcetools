@@ -10,8 +10,12 @@ import java.util.Locale;
  */
 public enum DatabaseEnum {
 
-    MYSQL("mysql", "com.mysql.jdbc.Driver", "jdbc:mysql://%1$s:%2$s", "show databases",
-            "select table_name from information_schema.tables where table_schema='%1$s'", "",
+    MYSQL("mysql",
+            "com.mysql.jdbc.Driver",
+            "jdbc:mysql://%1$s:%2$s",
+            "show databases",
+            "select table_name from information_schema.tables where table_schema='%1$s'",
+            "select * from information_schema.COLUMNS where TABLE_NAME = '%1$s'",
             "select * from %1$s limit %2$s,%3$s",
             "select count(*) from %1$s");
 

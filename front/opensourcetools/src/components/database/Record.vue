@@ -1,24 +1,28 @@
 <template>
   <div id='record'>
     <el-table
-        :data="recordResult.recordList"
-        style="width: 100%;height: 600px">
-        <el-table-column v-for='(column, key) of recordResult.columnList'
-          :prop="column"
-          :label="column"
-          :key="key"
-          width="180">
-          <template slot-scope='scope'>
-            <span>{{scope.row[key]}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        background
-        @current-change='handleChangePage'
-        layout="prev, pager, next"
-        :total="page.totalCount">
-      </el-pagination>
+      v-loading="loading"
+      element-loading-text="加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      :data="recordResult.recordList"
+      style="width: 100%;height: 650px">
+      <el-table-column v-for='(column, key) of recordResult.columnList'
+        :prop="column"
+        :label="column"
+        :key="key"
+        width="180">
+        <template slot-scope='scope'>
+          <span>{{scope.row[key]}}</span>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      background
+      @current-change='handleChangePage'
+      layout="prev, pager, next"
+      :total="page.totalCount">
+    </el-pagination>
   </div>
 </template>
 
@@ -43,7 +47,8 @@ export default {
         totalCount: 100
       },
       parentNodeLabel: '',
-      label: ''
+      label: '',
+      loading: false
     }
   },
   mounted() {

@@ -41,9 +41,16 @@ public class DatabaseController {
             for (Table table : dataBase.getTableList()) {
                 TreeNode tableTreeNode = new TreeNode();
                 tableTreeNode.setLabel(table.getName());
-                tableTreeNode.setChildren(null);
+                tableTreeNode.setChildren(new ArrayList<>());
                 tableTreeNode.setNodeType("table");
                 tableTreeNode.setParentNodeLabel(dataBase.getName());
+                for (Column column : table.getColumnList()) {
+                    TreeNode columnTreeNode = new TreeNode();
+                    columnTreeNode.setLabel(column.getName() + " " + column.getType());
+                    columnTreeNode.setNodeType("column");
+                    columnTreeNode.setParentNodeLabel(table.getName());
+                    tableTreeNode.getChildren().add(columnTreeNode);
+                }
                 databaseTreeNode.getChildren().add(tableTreeNode);
             }
             treeNodeList.add(databaseTreeNode);
